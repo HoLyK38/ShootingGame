@@ -6,6 +6,5 @@ class Track
 public:
 	//data
 	//function
-	
 };
 #endif

@@ -1,5 +1,6 @@
 #include "Plane.h"
 #include "BulletManager.h"
+#include "BulletTrack.h"
 Plane::~Plane(){}
 Plane::Plane(GLuint id , float x,float y,float w,float h):QUAD(id ,x, y, w, h,0)
 {
@@ -8,19 +9,24 @@ Plane::Plane(GLuint id , float x,float y,float w,float h):QUAD(id ,x, y, w, h,0)
 	this->m_BM = new BulletManager();
 	this->m_state = NONE;
 	this->m_weapon = wSINGLE;
-	this->m_hp = 100;
+	this->m_hp = 1;
 	this->m_unit = 5;
+	this->m_isAuto = true;
+	for(int i=0;i<4;i++) this->m_keyState[i] = false;
 }
 
 void Plane::Update(float deltaTime)
 {
 	if( this->m_hp < 0 )
 		this->deadAnime(deltaTime);
+	else if ( this->m_hurting )
+		this->HurtAnime(deltaTime);
 
 	static float sumTime=0;
+
 	if( sumTime > 0.1 ){
 		this->Shoot();
-		this->StayAnime();
+		if(this->m_animeTexCoord.size()!=0)this->StayAnime();
 		sumTime = deltaTime;
 	}
 	else
@@ -28,7 +34,8 @@ void Plane::Update(float deltaTime)
 
 	this->Draw();
 	this->m_BM->Update(deltaTime);
-	this->CheckState();
+	if(m_isAuto) this->CheckState();
+	else this->Move();
 }
 void Plane::ChangeWeapon(WEAPON weapon)
 {
@@ -71,23 +78,48 @@ void Plane::Shoot()
 {
 	if(this->m_isShooting){
 		Bullet b_temp = Bullet(m_bullet->m_textureID,this->m_x,this->m_y+36
-								,m_bullet->m_w,m_bullet->m_h,m_bullet->m_angle);
+			,m_bullet->m_w,m_bullet->m_h,m_bullet->m_angle);
 		b_temp.m_left = m_bullet->m_left;
 		b_temp.m_right = m_bullet->m_right;
 		b_temp.m_top = m_bullet->m_top;
 		b_temp.m_down = m_bullet->m_down;
 		switch ( this->m_weapon ){
 		case wSINGLE :
+			b_temp.SetStart(this->m_x,this->m_y+36);
+			b_temp.SetTrack(Track_Line);
+			this->m_BM->Push(b_temp);
 			break;
 		case wDOUBLE :
 			break;
 		case wTRIPLE :
 			break;
+		case wAllAngle:
+			for(double i = 0 ; i < 360 ; i += 15)
+			{
+				b_temp.SetStart(this->m_x+36*sin(i*PI/180) ,this->m_y+36*cos(i*PI/180));
+				b_temp.SetTrack(i,Track_Angle);//Track Set
+				this->m_BM->Push(b_temp);
+			}
 		default:
 			break;
 		}
 	}
-	//glutPostRedisplay();
+}
+void Plane::Move()
+{
+	if ( this->m_keyState[0] )
+		this->m_x -=5;
+	if ( this->m_keyState[1] )
+		this->m_x +=5;
+	if ( this->m_keyState[2] )
+		this->m_y +=5;
+	if ( this->m_keyState[3] ){
+		this->m_y -=5;		
+	}
+}
+void Plane::Move(PlaneState s)
+{
+	this->m_state = s;
 }
 void Plane::StayAnime()
 {

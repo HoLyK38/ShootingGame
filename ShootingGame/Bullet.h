@@ -3,9 +3,8 @@
 #include <vector>
 #include <math.h>
 #include "QUAD.h"
+#include "Plane.h"
 #include "ConstData.h"
-#include "EnemyPlane.h"
-#include "MainPlane.h"
 class Bullet : public QUAD
 {
 public:
@@ -28,8 +27,7 @@ public:
 	void Move();//¤l¼u­y¹D
 	void Track();//¤l¼u­y¹D
 	void Update(float);
-	bool isCollide(const EnemyPlane *Q);//¸I¼²°»´ú
-	bool isCollide(const MainPlane *Q);//¸I¼²°»´ú
+	bool isCollide(const Plane *Q);//¸I¼²°»´ú
 	
 };
 #endif

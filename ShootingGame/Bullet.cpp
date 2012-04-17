@@ -60,23 +60,7 @@ void Bullet::Update(float deltaTime)
 	this->Draw();
 	this->Track();
 }
-bool Bullet::isCollide(const EnemyPlane *Q)
-{
-	if (Q!=NULL){
-		bool xIsCollided = false,yIsCollided = false;
-		if ( (m_x + m_w/2) > (Q->m_x - Q->m_w/2) && (m_x + m_w/2) < (Q->m_x + Q->m_w/2) ) xIsCollided = true;
-		else if ( (m_x - m_w/2) > (Q->m_x - Q->m_w/2) && (m_x + m_w/2) < (Q->m_x + Q->m_w/2) ) xIsCollided = true;
-		else if ( m_x > (Q->m_x - Q->m_w/2) && m_x < (Q->m_x + Q->m_w/2) ) xIsCollided = true;
-
-		if ( (m_y + m_h/2) > (Q->m_y - Q->m_h/2) && (m_y + m_h/2) < (Q->m_y + Q->m_h/2) ) yIsCollided = true;
-		else if ( (m_y - m_h/2) > (Q->m_y - Q->m_h/2) && (m_y + m_h/2) < (Q->m_y + Q->m_h/2) ) yIsCollided = true;
-		else if ( m_y > (Q->m_y - Q->m_h/2) && m_y < (Q->m_y + Q->m_h/2) ) yIsCollided = true;
-
-		if ( xIsCollided==true && yIsCollided==true ) return true;
-		else return false;
-	}else return false;
-}
-bool Bullet::isCollide(const MainPlane *Q)
+bool Bullet::isCollide(const Plane *Q)
 {
 	if (Q!=NULL){
 		bool xIsCollided = false,yIsCollided = false;

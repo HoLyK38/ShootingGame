@@ -10,8 +10,10 @@ class Plane : public QUAD
 {
 public:
 	//data
+	bool m_isAuto;//true = 敵人 false = 自己控制
 	bool m_isShooting;
 	bool m_hurting;
+	bool m_keyState[4];
 	int m_hp;
 	float m_unit;
 	std::vector<GLuint> m_deadAnime;//死亡播放動畫的Texture
@@ -24,6 +26,8 @@ public:
 	Plane(GLuint id , float x,float y,float w,float h);
 	~Plane();
 	void Update(float);
+	void Move();
+	void Move(PlaneState);
 	void Shoot();//依照現在狀態看要不要shoot
 	void CheckState();//檢查現在狀態
 	void StayAnime();//靜止時的動畫

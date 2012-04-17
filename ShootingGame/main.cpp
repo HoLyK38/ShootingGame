@@ -1,4 +1,3 @@
-//main
 #include <windows.h>
 #include <stdio.h>
 #include <iostream>
@@ -7,16 +6,15 @@
 #include <vector>
 #include "../freeglut/glut.h"
 #include "QUAD.h"
+#include "Plane.h"
 #include "Bullet.h"
-#include "EnemyPlane.h"
 #include "BulletManager.h"
-#include "MainPlane.h"
 #include "EnemyManager.h"
 #include "Data.h"
 #include "ConstData.h"
 #include "GameTimer.h"
-#include "MainPlaneFunc.h"
 #include "LoadTextureFunc.h"
+#include "StageScript.h"
 using namespace std;
 void Reshape(int,int);            //負責視窗及繪圖內容的比例 
 void Keyboard(unsigned char,int,int);   //獲取鍵盤輸入
@@ -25,12 +23,17 @@ void SpecialKeyboardUp(int,int,int);   //獲取鍵盤輸入
 void SpecialKeyboard(int,int,int);//獲取特殊鍵盤輸入
 void Display(void);                     //描繪 
 void Init();//初始化子彈人物敵機資訊
+void Frame(int)
+{
+	glutPostRedisplay();
+	glutTimerFunc(15,Frame,0);
+}//FPS
 int main(int argc,char** argv)
 {
 	glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH);
 	glutInitWindowSize(winWidth,winHeight);	//< Dual view
-	glutInitWindowPosition(0,0);
+	glutInitWindowPosition(500,0);
 	glutCreateWindow(argv[0]);
 	//--------------------------------------------------
 	gameTimer.tick();
@@ -43,8 +46,7 @@ int main(int argc,char** argv)
 	glutSpecialFunc(SpecialKeyboard);
 	glutDisplayFunc(Display);
 	//---Timer
-	//glutTimerFunc(100,MainAnime,0);
-	//glutTimerFunc(10,MainShootTimerFunc,0);
+	glutTimerFunc(15,Frame,0);
 	//---Timer
 	glutMainLoop(); 
 	return 0; 
@@ -64,21 +66,26 @@ void Display(void)
 	mainPlane->Update(deltaTime);
 	mainPlane->m_BM->isCollide(enemyM);
 	enemyM->Update(deltaTime);
+	if(target->m_state !=DEAD)Script();
+	//if(target->m_state >=-1 && target->m_state <=8)Script();
 	//--------------------------------------------------
-	glutPostRedisplay(); 
+	gameTime += deltaTime;
 	glutSwapBuffers();
 }
 void Keyboard(unsigned char key, int x, int y) 
 {
 	switch (key)
 	{
+		case 'q':
+			mainPlane->ChangeWeapon(wAllAngle);
+			break;
 		case 'x':
-			boss = new EnemyPlane(BossPlaneTex,0,300,56,63);
-			for(int i=0;i<3;i++)
-				boss->m_deadAnime[i] = testAnime[i];
+			boss->m_state = DEAD;
+			/*boss = new EnemyPlane(BossPlaneTex,0,300,56,63);
+			boss->m_deadAnime = testAnime;
 			boss->SetImageWH(256,128);
 			boss->SetTexCoord(35,90,36,98);
-			enemyM->Push(*boss);
+			enemyM->Push(*boss);*/
 			break;
 		case 'v':
 			mainPlane->ChangeWeapon(wSINGLE);
@@ -90,15 +97,13 @@ void Keyboard(unsigned char key, int x, int y)
 			mainPlane->ChangeWeapon(wTRIPLE);
 			break;
 		case 'Z':
-			mainTrackPtr = Track_Sin;
 			mainPlane->m_isShooting = true;
 			break;
 		case 'z':
-			mainTrackPtr = Track_Line1;
 			mainPlane->m_isShooting = true;
 			break;
 	}
-	glutPostRedisplay(); 
+	//glutPostRedisplay(); 
 }
 void KeyboardUp(unsigned char key, int x, int y) 
 {
@@ -109,7 +114,7 @@ void KeyboardUp(unsigned char key, int x, int y)
 			mainPlane->m_isShooting = false;
 			break;
 	}
-	glutPostRedisplay(); 
+	//glutPostRedisplay(); 
 }
 void SpecialKeyboard(int key, int x, int y) 
 {
@@ -140,7 +145,7 @@ void SpecialKeyboard(int key, int x, int y)
 			mainPlane->m_state = RIGHT;
 			break;
 	}
-	glutPostRedisplay(); 
+	//glutPostRedisplay(); 
 }
 void SpecialKeyboardUp(int key, int x, int y) 
 {
@@ -164,7 +169,7 @@ void SpecialKeyboardUp(int key, int x, int y)
 			mainPlane->m_state = NONE;
 			break;
 	}
-	glutPostRedisplay(); 
+	//glutPostRedisplay(); 
 }
 void Reshape(int w, int h) 
 {
@@ -184,7 +189,7 @@ void Reshape(int w, int h)
 }
 void Init()
 {
-
+	gameTime = 0;
 	LoadTexture("../Data/002.bmp","../Data/002alpha.bmp",MainPlaneTex);
 	LoadTexture("../Data/002.bmp","../Data/002alpha.bmp",MainPlaneTex);
 	LoadTexture("../Data/aaa.bmp","../Data/aaaalpha.bmp",BossPlaneTex);
@@ -206,20 +211,22 @@ void Init()
 
 
 	//Init QUAD need to set ImageWH and TexCoord
-	mainPlane = new MainPlane(MainPlaneTex,0,0,26,44);
+	mainPlane = new Plane(MainPlaneTex,0,0,26,44);
+	mainPlane->m_isAuto = false;
 	mainPlane->SetImageWH(256,256);
 	mainPlane->SetTexCoord(3,28,3,46);
 	mainPlane->SetAnimeTexCoord(selfTexCoord,0,16);
 	mainPlane->SetBullet(Bullet1Tex,16,16,0);
 	//mainPlane->SetBullet(MainPlaneTex,31,15,90,0,30,241,255);
 
-	boss = new EnemyPlane(BossPlaneTex,0,300,56,63);
+	boss = new Plane(BossPlaneTex,0,300,56,63);
 	boss->m_deadAnime = testAnime;
 	boss->SetImageWH(256,128);
 	boss->SetTexCoord(35,90,36,98);
+	boss->SetBullet(Bullet1Tex,16,16,0);
 
+	enemyM->Push(boss);
 	
-
-	enemyM->Push(*boss);
+	target = boss;
 
 }

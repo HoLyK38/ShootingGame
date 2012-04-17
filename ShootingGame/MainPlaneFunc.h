@@ -1,4 +1,4 @@
-#include "BulletTrack.h"
+
 //void MainShootTimerFunc(int);
 //void MainAnime(int);//靜止時人物動畫
 //void MainMoveTimer(int);

@@ -2,15 +2,15 @@
 #define DATA_H
 #include "GameTimer.h"
 static int winWidth = 800,winHeight = 800;//¿Ã¹õ¼e°ª
-
+float gameTime;
 GLuint MainPlaneTex=0;
 GLuint BossPlaneTex=0;
 GLuint Bullet1Tex=0;
 //--
 std::vector<GLuint>testAnime;
 //--
-MainPlane* mainPlane;
-EnemyPlane* boss;
+Plane* mainPlane;
+Plane* boss;
 
 EnemyManager *enemyM;//enemyPlaneBulletManager
 //BulletManager* mainBM;//mainPlaneBulletManager

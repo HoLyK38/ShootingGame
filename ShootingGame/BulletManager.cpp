@@ -21,9 +21,10 @@ void BulletManager::isCollide(EnemyManager* enemyM)
 {
 	for(int i=0;i<m_bullet.size();i++){
 		for(int j=0;j<enemyM->m_enemyPlane.size();j++){
-			if( m_bullet[i].isCollide(& enemyM->m_enemyPlane[j] ) ){
-				enemyM->m_enemyPlane[j].m_hp -= m_bullet[i].m_atk;
-				enemyM->m_enemyPlane[j].m_hurting = true;
+			//std::cout<<enemyM->m_enemyPlane.size()<<std::endl;
+			if( m_bullet[i].isCollide( enemyM->m_enemyPlane[j] ) ){
+				enemyM->m_enemyPlane[j]->m_hp -= m_bullet[i].m_atk;
+				enemyM->m_enemyPlane[j]->m_hurting = true;
 				m_bullet.erase(m_bullet.begin()+i);
 				break;
 			}

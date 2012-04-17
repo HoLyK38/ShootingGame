@@ -18,13 +18,7 @@
     <ClInclude Include="QUAD.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="MainPlane.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
     <ClInclude Include="BulletManager.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyPlane.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="EnemyManager.h">
@@ -57,6 +51,9 @@
     <ClInclude Include="Track.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="StageScript.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="QUAD.cpp">
@@ -66,9 +63,6 @@
       <Filter>原始程式檔</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>原始程式檔</Filter>
-    </ClCompile>
-    <ClCompile Include="MainPlane.cpp">
       <Filter>原始程式檔</Filter>
     </ClCompile>
     <ClCompile Include="BulletManager.cpp">
@@ -84,9 +78,6 @@
       <Filter>原始程式檔</Filter>
     </ClCompile>
     <ClCompile Include="Track.cpp">
-      <Filter>原始程式檔</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyPlane.cpp">
       <Filter>原始程式檔</Filter>
     </ClCompile>
   </ItemGroup>

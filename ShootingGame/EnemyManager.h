@@ -1,15 +1,15 @@
 #ifndef ENEMYMANAGER_H
 #define ENEMYMANAGER_H
 #include <vector>
-#include "EnemyPlane.h"
+#include "Plane.h"
 class EnemyManager
 {
 public:
 	//data
-	std::vector<EnemyPlane> m_enemyPlane;
+	std::vector<Plane*> m_enemyPlane;
 	//function
 	EnemyManager();
-	void Push(EnemyPlane&);
+	void Push(Plane*);
 	void Update(float deltaTime);
 	void test();
 };

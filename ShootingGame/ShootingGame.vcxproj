@@ -82,23 +82,20 @@
     <ClInclude Include="ConstData.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="EnemyManager.h" />
-    <ClInclude Include="EnemyPlane.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="LoadTextureFunc.h" />
-    <ClInclude Include="MainPlane.h" />
     <ClInclude Include="MainPlaneFunc.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="QUAD.h" />
+    <ClInclude Include="StageScript.h" />
     <ClInclude Include="Track.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
-    <ClCompile Include="EnemyPlane.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainPlane.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="QUAD.cpp" />
     <ClCompile Include="Track.cpp" />
