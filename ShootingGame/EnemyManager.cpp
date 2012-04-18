@@ -11,8 +11,7 @@ void EnemyManager::Update(float deltaTime)
 			m_enemyPlane.erase(m_enemyPlane.begin()+i);
 		else if( m_enemyPlane[i]->m_state == DEAD ){
 			delete m_enemyPlane[i];
-			m_enemyPlane[i]->m_state = DEAD;
-			std::cout<<"DEAD"<<std::endl;
+			//m_enemyPlane[i]->m_state = DEAD;
 			m_enemyPlane.erase(m_enemyPlane.begin()+i);
 		}
 		else

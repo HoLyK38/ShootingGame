@@ -49,14 +49,6 @@ void Bullet::SetTrack(TrackPtr t)
 
 void Bullet::Update(float deltaTime)
 {
-	/*static float sumTime = 0;
-	if( sumTime>=0.001 ){
-		this->Track();
-		sumTime = 0;
-	}else
-		sumTime += deltaTime;
-	this->Draw();*/
-	//this->Track();
 	this->Draw();
 	this->Track();
 }

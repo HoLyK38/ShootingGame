@@ -1,7 +1,11 @@
 #include "Plane.h"
 #include "BulletManager.h"
 #include "BulletTrack.h"
-Plane::~Plane(){}
+Plane::~Plane()
+{
+
+	this->m_state = DEAD;
+}
 Plane::Plane(GLuint id , float x,float y,float w,float h):QUAD(id ,x, y, w, h,0)
 {
 	this->m_isShooting = false;
@@ -9,7 +13,7 @@ Plane::Plane(GLuint id , float x,float y,float w,float h):QUAD(id ,x, y, w, h,0)
 	this->m_BM = new BulletManager();
 	this->m_state = NONE;
 	this->m_weapon = wSINGLE;
-	this->m_hp = 1;
+	this->m_hp = 30;
 	this->m_unit = 5;
 	this->m_isAuto = true;
 	for(int i=0;i<4;i++) this->m_keyState[i] = false;
@@ -17,7 +21,7 @@ Plane::Plane(GLuint id , float x,float y,float w,float h):QUAD(id ,x, y, w, h,0)
 
 void Plane::Update(float deltaTime)
 {
-	if( this->m_hp < 0 )
+	if( this->m_hp <= 0 )
 		this->deadAnime(deltaTime);
 	else if ( this->m_hurting )
 		this->HurtAnime(deltaTime);
@@ -108,13 +112,13 @@ void Plane::Shoot()
 void Plane::Move()
 {
 	if ( this->m_keyState[0] )
-		this->m_x -=5;
+		this->m_x -=m_unit;
 	if ( this->m_keyState[1] )
-		this->m_x +=5;
+		this->m_x +=m_unit;
 	if ( this->m_keyState[2] )
-		this->m_y +=5;
+		this->m_y +=m_unit;
 	if ( this->m_keyState[3] ){
-		this->m_y -=5;		
+		this->m_y -=m_unit;		
 	}
 }
 void Plane::Move(PlaneState s)

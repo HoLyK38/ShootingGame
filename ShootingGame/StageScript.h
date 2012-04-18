@@ -7,22 +7,22 @@ void MoveTo(float x,float y);
 
 void Script()
 {
-	//std::cout<<"ScriptTime"<<std::endl;
 	if ( TimeDiff(gameTime,2,4) ){
 		MoveTo(300,300);
 	}
 
-	if ( TimeDiff(gameTime,4,8) ){
+	if ( TimeDiff(gameTime,4,5) ){
 		target->m_weapon = wAllAngle;
 		target->m_isShooting = true;
+	}
+	if ( TimeDiff(gameTime,5,6) ){
+		target->m_isShooting = false;
 	}
 }
 inline bool TimeDiff(float n,float firstTime,float lastTime)
 {
-	if( n>firstTime && n<lastTime )
-		return true;
-	else
-		return false;
+	if( n>firstTime && n<lastTime ) return true;
+	else return false;
 }
 void MoveTo(float x,float y)
 {

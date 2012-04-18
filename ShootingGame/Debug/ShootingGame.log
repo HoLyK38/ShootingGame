@@ -1,21 +1,12 @@
-﻿已經開始建置於 2012/4/18 上午 06:31:06。
+﻿已經開始建置於 2012/4/19 上午 05:26:55。
      1>節點 2 (build 目標) 上的專案 "C:\Users\HolyK\Desktop\Project\ShootingGame\ShootingGame\ShootingGame.vcxproj"。
      1>InitializeBuildStatus:
-         正在變更時間戳記 "Debug\ShootingGame.unsuccessfulbuild"。
+         由於指定了 "AlwaysCreate"，因此正在建立 "Debug\ShootingGame.unsuccessfulbuild"。
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Bullet.cpp BulletManager.cpp EnemyManager.cpp Plane.cpp main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
          main.cpp
-     1>c:\users\holyk\desktop\project\shootinggame\shootinggame\loadtexturefunc.h(31): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>c:\users\holyk\desktop\project\shootinggame\shootinggame\loadtexturefunc.h(65): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 請參閱 'fopen' 的宣告
-         Plane.cpp
-     1>c:\users\holyk\desktop\project\shootinggame\shootinggame\plane.cpp(129): warning C4018: '<' : signed/unsigned 不相符
-     1>c:\users\holyk\desktop\project\shootinggame\shootinggame\plane.cpp(139): warning C4018: '>=' : signed/unsigned 不相符
-     1>c:\users\holyk\desktop\project\shootinggame\shootinggame\plane.cpp(157): warning C4018: '>=' : signed/unsigned 不相符
-         正在產生程式碼...
-         正在略過... (未偵測到相關變更)
-         EnemyManager.cpp
-         BulletManager.cpp
-         Bullet.cpp
        ManifestResourceCompile:
          所有輸出都是最新的。
        Link:
@@ -41,4 +32,4 @@
 
 建置成功。
 
-經過時間 00:00:02.24
+經過時間 00:00:01.58

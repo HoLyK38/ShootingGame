@@ -1,20 +1,4 @@
-#include <windows.h>
-#include <stdio.h>
-#include <iostream>
-#include <time.h>
-#include <string.h>
-#include <vector>
-#include "../freeglut/glut.h"
-#include "QUAD.h"
-#include "Plane.h"
-#include "Bullet.h"
-#include "BulletManager.h"
-#include "EnemyManager.h"
-#include "Data.h"
-#include "ConstData.h"
-#include "GameTimer.h"
-#include "LoadTextureFunc.h"
-#include "StageScript.h"
+#include "INCLUDE.h"
 using namespace std;
 void Reshape(int,int);            //負責視窗及繪圖內容的比例 
 void Keyboard(unsigned char,int,int);   //獲取鍵盤輸入
@@ -22,6 +6,8 @@ void KeyboardUp(unsigned char,int,int) ;
 void SpecialKeyboardUp(int,int,int);   //獲取鍵盤輸入
 void SpecialKeyboard(int,int,int);//獲取特殊鍵盤輸入
 void Display(void);                     //描繪 
+void Clock();//右上角的時間
+void ClockDraw(int,int);//右上角的時間
 void Init();//初始化子彈人物敵機資訊
 void Frame(int)
 {
@@ -54,23 +40,57 @@ int main(int argc,char** argv)
 void Display(void) 
 {
 	glClearColor(0.0, 0.0, 0.0, 1.0);//用黑色0 0 0塗背景
-	//glClearColor(1.0, 1.0, 1.0, 1.0);//用白色1 1 1塗背景
 	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); 
 	glMatrixMode(GL_MODELVIEW); 
 	glLoadIdentity(); 
 	gluLookAt(0,0,400,0,0,0,0,1,0);   //視線的座標及方向
+	//---------BackGround----------------------------
+	BackGround->Draw();
 	//---------caculate time----------------------------
 	gameTimer.tick();
 	deltaTime = gameTimer.getDeltaTime();
+	Clock();
+	gameTime += deltaTime;
 	//---------update-----------------------------------
 	mainPlane->Update(deltaTime);
 	mainPlane->m_BM->isCollide(enemyM);
 	enemyM->Update(deltaTime);
-	if(target->m_state !=DEAD)Script();
-	//if(target->m_state >=-1 && target->m_state <=8)Script();
+	//---------Script-----------------------------------
+	if(target->m_state!=DEAD)Script();
 	//--------------------------------------------------
-	gameTime += deltaTime;
 	glutSwapBuffers();
+}
+void Clock()
+{
+	static float sT = 0;
+	static int m = 0,s = 0;
+	static float temp=1;
+	if( sT>=temp )	temp = temp + 1;
+	sT += deltaTime;
+	if( sT>=60 ){
+		sT = 0;
+		s = 0;
+		m++;
+	}
+	else s = int(sT);
+	if ( m>10 )	m = 0;
+	ClockDraw(m,s);
+}
+void ClockDraw(int m,int s)
+{
+	number[0]->SetTexCoord( numberTexCoord[m] , numberTexCoord[m]+60);
+	if( s<10 ){
+		number[2]->SetTexCoord( numberTexCoord[0] , numberTexCoord[0]+60);
+		number[3]->SetTexCoord( numberTexCoord[s] , numberTexCoord[s]+60);
+	}else{
+		int k,t;
+		k = int(s / 10);
+		t = s % 10;
+		number[2]->SetTexCoord( numberTexCoord[k] , numberTexCoord[k]+60);
+		number[3]->SetTexCoord( numberTexCoord[t] , numberTexCoord[t]+60);
+	}
+	for(int i=0;i<4;i++)
+		number[i]->Draw();
 }
 void Keyboard(unsigned char key, int x, int y) 
 {
@@ -80,12 +100,6 @@ void Keyboard(unsigned char key, int x, int y)
 			mainPlane->ChangeWeapon(wAllAngle);
 			break;
 		case 'x':
-			boss->m_state = DEAD;
-			/*boss = new EnemyPlane(BossPlaneTex,0,300,56,63);
-			boss->m_deadAnime = testAnime;
-			boss->SetImageWH(256,128);
-			boss->SetTexCoord(35,90,36,98);
-			enemyM->Push(*boss);*/
 			break;
 		case 'v':
 			mainPlane->ChangeWeapon(wSINGLE);
@@ -103,7 +117,6 @@ void Keyboard(unsigned char key, int x, int y)
 			mainPlane->m_isShooting = true;
 			break;
 	}
-	//glutPostRedisplay(); 
 }
 void KeyboardUp(unsigned char key, int x, int y) 
 {
@@ -114,42 +127,35 @@ void KeyboardUp(unsigned char key, int x, int y)
 			mainPlane->m_isShooting = false;
 			break;
 	}
-	//glutPostRedisplay(); 
 }
 void SpecialKeyboard(int key, int x, int y) 
 {
+	if (glutGetModifiers() == GLUT_ACTIVE_SHIFT)
+		mainPlane->m_unit = 2.5;
+	else
+		mainPlane->m_unit = 5;
 	switch (key)
 	{
 		case GLUT_KEY_UP:
-			/*if( !(mainPlane->m_keyState[0] || mainPlane->m_keyState[1] || mainPlane->m_keyState[2] || mainPlane->m_keyState[3]) )
-				glutTimerFunc(10, MainMoveTimer, 3);*/
 			mainPlane->m_keyState[2] = true;
 			break;
 		case GLUT_KEY_DOWN:
-			/*if( !(mainPlane->m_keyState[0] || mainPlane->m_keyState[1] || mainPlane->m_keyState[2] || mainPlane->m_keyState[3]) )
-				glutTimerFunc(10, MainMoveTimer, 4);*/
 			mainPlane->m_keyState[3] = true;
 			break;
 		case GLUT_KEY_LEFT:
-			/*if( !(mainPlane->m_keyState[0] || mainPlane->m_keyState[1] || mainPlane->m_keyState[2] || mainPlane->m_keyState[3]) )
-				glutTimerFunc(10, MainMoveTimer, 1);*/
 			mainPlane->SetTexCoord(131,156,51,94);
 			mainPlane->m_keyState[0] = true;
 			mainPlane->m_state = LEFT;
 			break;
 		case GLUT_KEY_RIGHT:
-			/*if( !(mainPlane->m_keyState[0] || mainPlane->m_keyState[1] || mainPlane->m_keyState[2] || mainPlane->m_keyState[3]) )
-				glutTimerFunc(10, MainMoveTimer, 2);*/
 			mainPlane->SetTexCoord(131,156,99,142);
 			mainPlane->m_keyState[1] = true;
 			mainPlane->m_state = RIGHT;
 			break;
 	}
-	//glutPostRedisplay(); 
 }
 void SpecialKeyboardUp(int key, int x, int y) 
 {
-	
 	switch (key)
 	{
 		case GLUT_KEY_UP:
@@ -169,7 +175,6 @@ void SpecialKeyboardUp(int key, int x, int y)
 			mainPlane->m_state = NONE;
 			break;
 	}
-	//glutPostRedisplay(); 
 }
 void Reshape(int w, int h) 
 {
@@ -194,22 +199,30 @@ void Init()
 	LoadTexture("../Data/002.bmp","../Data/002alpha.bmp",MainPlaneTex);
 	LoadTexture("../Data/aaa.bmp","../Data/aaaalpha.bmp",BossPlaneTex);
 	LoadTexture("../Data/bullet1.bmp","../Data/bullet1alpha.bmp",Bullet1Tex);
-
 	GLuint temp;
 	LoadTexture("../Data/aaa.bmp","../Data/aaaalpha.bmp",temp);
-	testAnime.push_back(temp);
+	bossHurtTex.push_back(temp);
 	LoadTexture("../Data/test1.bmp","../Data/aaaalpha.bmp",temp);
-	testAnime.push_back(temp);
+	bossHurtTex.push_back(temp);
 	LoadTexture("../Data/test2.bmp","../Data/aaaalpha.bmp",temp);
-	testAnime.push_back(temp);
+	bossHurtTex.push_back(temp);
 	LoadTexture("../Data/test3.bmp","../Data/aaaalpha.bmp",temp);
-	testAnime.push_back(temp);
-	//tb = new Bullet(Bullet1Tex,30,30,100,100,0);
-
-	//mainBM = new BulletManager();
+	bossHurtTex.push_back(temp);
+	//--Init Clock
+	LoadTexture("../Data/number.bmp","../Data/numberalpha.bmp",numberTex);
+	number[0] = new QUAD(numberTex,clock_x,clock_y,60,88);
+	number[1] = new QUAD(numberTex,clock_x+60,clock_y,40,88);
+	number[2] = new QUAD(numberTex,clock_x+100,clock_y,60,88);
+	number[3] = new QUAD(numberTex,clock_x+160,clock_y,60,88);
+	for(int i=0;i<4;i++)
+		number[i]->SetImageWH(676,88);
+	number[1]->SetTexCoord(636,676);
+	//--Init BackGround
+	LoadTexture("../Data/background.bmp","../Data/backgroundalpha.bmp",BackGroundTex,0.45);
+	BackGround = new QUAD(BackGroundTex,0,0,800,800);
+	BackGround->SetImageWH(800,800);
+	//--Init EnemyManager
 	enemyM = new EnemyManager();
-
-
 	//Init QUAD need to set ImageWH and TexCoord
 	mainPlane = new Plane(MainPlaneTex,0,0,26,44);
 	mainPlane->m_isAuto = false;
@@ -217,16 +230,14 @@ void Init()
 	mainPlane->SetTexCoord(3,28,3,46);
 	mainPlane->SetAnimeTexCoord(selfTexCoord,0,16);
 	mainPlane->SetBullet(Bullet1Tex,16,16,0);
-	//mainPlane->SetBullet(MainPlaneTex,31,15,90,0,30,241,255);
 
 	boss = new Plane(BossPlaneTex,0,300,56,63);
-	boss->m_deadAnime = testAnime;
+	boss->m_deadAnime = bossHurtTex;
 	boss->SetImageWH(256,128);
 	boss->SetTexCoord(35,90,36,98);
 	boss->SetBullet(Bullet1Tex,16,16,0);
 
 	enemyM->Push(boss);
-	
+	//Script target
 	target = boss;
-
 }

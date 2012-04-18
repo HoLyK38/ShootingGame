@@ -83,6 +83,7 @@
     <ClInclude Include="Data.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="GameTimer.h" />
+    <ClInclude Include="INCLUDE.h" />
     <ClInclude Include="LoadTextureFunc.h" />
     <ClInclude Include="MainPlaneFunc.h" />
     <ClInclude Include="Plane.h" />
