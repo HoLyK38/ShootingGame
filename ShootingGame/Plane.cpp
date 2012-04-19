@@ -2,10 +2,7 @@
 #include "BulletManager.h"
 #include "BulletTrack.h"
 Plane::~Plane()
-{
-
-	this->m_state = DEAD;
-}
+{}
 Plane::Plane(GLuint id , float x,float y,float w,float h):QUAD(id ,x, y, w, h,0)
 {
 	this->m_isShooting = false;
@@ -15,6 +12,7 @@ Plane::Plane(GLuint id , float x,float y,float w,float h):QUAD(id ,x, y, w, h,0)
 	this->m_weapon = wSINGLE;
 	this->m_hp = 30;
 	this->m_unit = 5;
+	this->m_BAngle = 0;
 	this->m_isAuto = true;
 	for(int i=0;i<4;i++) this->m_keyState[i] = false;
 }
@@ -87,10 +85,12 @@ void Plane::Shoot()
 		b_temp.m_right = m_bullet->m_right;
 		b_temp.m_top = m_bullet->m_top;
 		b_temp.m_down = m_bullet->m_down;
+		b_temp.m_speed = m_bullet->m_speed;
+		b_temp.m_unit = m_bullet->m_unit;
 		switch ( this->m_weapon ){
 		case wSINGLE :
-			b_temp.SetStart(this->m_x,this->m_y+36);
-			b_temp.SetTrack(Track_Line);
+			b_temp.SetStart(this->m_x+36*sin(m_BAngle*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
+			b_temp.SetTrack(m_BAngle,Track_Angle);
 			this->m_BM->Push(b_temp);
 			break;
 		case wDOUBLE :
@@ -108,6 +108,16 @@ void Plane::Shoot()
 			break;
 		}
 	}
+}
+void Plane::ShootOn(double a,WEAPON w)
+{
+	this->m_weapon = w;
+	this->m_BAngle =a;
+	this->m_isShooting = true;
+}
+void Plane::ShootOFF()
+{
+	this->m_isShooting = false;
 }
 void Plane::Move()
 {
@@ -184,4 +194,8 @@ void Plane::SetBullet(GLuint texID,float w,float h,float angle,
 {
 	m_bullet = new Bullet(texID,0,0,w,h,angle);
 	m_bullet->SetTexCoord(left,right,top,down);
+}
+void Plane::SetBulletSpeed(int u)
+{
+	m_bullet->m_unit = u;
 }

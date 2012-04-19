@@ -5,7 +5,7 @@ Bullet::Bullet(GLuint a , float x,float y,float w,float h,float angle):QUAD(a ,x
 {
 	this->m_atk = 10;
 	this->m_unit = 10;
-	this->m_speed = 10;
+	this->m_speed = 0.015;
 	this->m_startX = x;
 	this->m_startY = y;
 	this->m_state = STOP;
@@ -16,7 +16,7 @@ Bullet::Bullet(GLuint a , float w,float h,float angle):QUAD(a ,0, 0, w, h, angle
 {
 	this->m_atk = 10;
 	this->m_unit = 10;
-	this->m_speed = 10;
+	this->m_speed = 0.015;
 	this->m_startX = 0;
 	this->m_startY = 0;
 	this->m_state = STOP;
@@ -29,7 +29,6 @@ void Bullet::SetStart(float a, float b)
 	this->m_startX = a;
 	this->m_startY = b;
 	this->SetPoint(a,b);
-
 }
 void Bullet::Track()
 {
@@ -51,6 +50,12 @@ void Bullet::Update(float deltaTime)
 {
 	this->Draw();
 	this->Track();
+	/*static float sT = 0;
+	if(sT>m_speed){
+		this->Track();
+		sT = deltaTime;
+	}else
+		sT += deltaTime;*/
 }
 bool Bullet::isCollide(const Plane *Q)
 {

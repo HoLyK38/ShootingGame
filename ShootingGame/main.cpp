@@ -56,7 +56,7 @@ void Display(void)
 	mainPlane->m_BM->isCollide(enemyM);
 	enemyM->Update(deltaTime);
 	//---------Script-----------------------------------
-	if(target->m_state!=DEAD)Script();
+	Script();
 	//--------------------------------------------------
 	glutSwapBuffers();
 }
@@ -100,6 +100,7 @@ void Keyboard(unsigned char key, int x, int y)
 			mainPlane->ChangeWeapon(wAllAngle);
 			break;
 		case 'x':
+			cout<<boss->m_state<<endl;
 			break;
 		case 'v':
 			mainPlane->ChangeWeapon(wSINGLE);
@@ -194,12 +195,17 @@ void Reshape(int w, int h)
 }
 void Init()
 {
+	GLuint temp;
 	gameTime = 0;
 	LoadTexture("../Data/002.bmp","../Data/002alpha.bmp",MainPlaneTex);
 	LoadTexture("../Data/002.bmp","../Data/002alpha.bmp",MainPlaneTex);
 	LoadTexture("../Data/aaa.bmp","../Data/aaaalpha.bmp",BossPlaneTex);
-	LoadTexture("../Data/bullet1.bmp","../Data/bullet1alpha.bmp",Bullet1Tex);
-	GLuint temp;
+	LoadTexture("../Data/bullet1.bmp","../Data/bullet1alpha.bmp",temp);
+	BulletTex.push_back(temp);
+	LoadTexture("../Data/bullet2.bmp","../Data/bullet2alpha.bmp",temp);
+	BulletTex.push_back(temp);
+	LoadTexture("../Data/bullet3.bmp","../Data/bullet3alpha.bmp",temp);
+	BulletTex.push_back(temp);
 	LoadTexture("../Data/aaa.bmp","../Data/aaaalpha.bmp",temp);
 	bossHurtTex.push_back(temp);
 	LoadTexture("../Data/test1.bmp","../Data/aaaalpha.bmp",temp);
@@ -224,18 +230,18 @@ void Init()
 	//--Init EnemyManager
 	enemyM = new EnemyManager();
 	//Init QUAD need to set ImageWH and TexCoord
-	mainPlane = new Plane(MainPlaneTex,0,0,26,44);
+	mainPlane = new Plane(MainPlaneTex,0,-350,26,44);
 	mainPlane->m_isAuto = false;
 	mainPlane->SetImageWH(256,256);
 	mainPlane->SetTexCoord(3,28,3,46);
 	mainPlane->SetAnimeTexCoord(selfTexCoord,0,16);
-	mainPlane->SetBullet(Bullet1Tex,16,16,0);
+	mainPlane->SetBullet(BulletTex[0],16,16,0);
 
-	boss = new Plane(BossPlaneTex,0,300,56,63);
+	boss = new Plane(BossPlaneTex,0,0,56,63);
 	boss->m_deadAnime = bossHurtTex;
 	boss->SetImageWH(256,128);
 	boss->SetTexCoord(35,90,36,98);
-	boss->SetBullet(Bullet1Tex,16,16,0);
+	boss->SetBullet(BulletTex[0],16,16,0);
 
 	enemyM->Push(boss);
 	//Script target

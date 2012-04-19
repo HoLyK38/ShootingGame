@@ -15,7 +15,7 @@ public:
 	float m_unit;//²¾°Ê³æ¦ì
 	float m_angle;
 	BulletState m_state;
-	int m_speed;
+	float m_speed;
 	int m_atk;
 	//function
 	Bullet(GLuint a , float x,float y,float w,float h,float angle);

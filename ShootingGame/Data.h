@@ -8,7 +8,7 @@ float deltaTime;
 float clock_x = 230,clock_y = 380;
 GLuint MainPlaneTex=0;
 GLuint BossPlaneTex=0;
-GLuint Bullet1Tex=0;
+std::vector<GLuint>BulletTex;
 GLuint BackGroundTex=0;
 GLuint numberTex=0;
 std::vector<GLuint>bossHurtTex;
