@@ -74,6 +74,8 @@ void Display(void)
 	//---------update-----------------------------------
 	if (mainPlane->m_isDead) isGameover = true;
 	mainPlane->Update(deltaTime);
+	mainPlaneQ->SetPoint(mainPlane->m_x,mainPlane->m_y);
+	mainPlaneQ->Draw();
 	mainPlane->m_BM->isCollide(enemyM);
 	enemyM->Update(deltaTime);
 	enemyM->hitMainPlane(mainPlane);
@@ -160,7 +162,10 @@ void HpDraw(int hp,int maxHp)
 }
 void Keyboard(unsigned char key, int x, int y) 
 {
-	if(isGameover) exit(0);
+	if(isGameover){
+		Sleep(1000);
+		exit(0);
+	}
 	switch (key)
 	{
 		case '1':
@@ -173,19 +178,22 @@ void Keyboard(unsigned char key, int x, int y)
 			mainPlane->ChangeWeapon(wTRIPLE);
 			break;
 		case 'q':
-			mainPlane->m_hp -= 10;
 			break;
 		case 'x':
-			Init();
+			mainPlane->m_hp += 10;
+			if(mainPlane->m_hp>100)
+				mainPlane->m_hp = 100;
+			mainPlane->m_hpMax = 100;
 			break;
 		case 'v':
-			mainPlane->ChangeWeapon(wSINGLE);
+			mainPlane->m_hp = 9999;
+			mainPlane->m_hpMax = 9999;
 			break;
 		case 'c':
-			mainPlane->ChangeWeapon(wDOUBLE);
+			boss->m_hp -= 250;
 			break;
 		case 'a':
-			mainPlane->ChangeWeapon(wTRIPLE);
+			gameTime = 18;
 			break;
 		case 'Z':
 			mainPlane->m_isShooting = true;
@@ -207,7 +215,10 @@ void KeyboardUp(unsigned char key, int x, int y)
 }
 void SpecialKeyboard(int key, int x, int y) 
 {
-	if(isGameover) exit(0);
+	if(isGameover){
+		Sleep(1000);
+		exit(0);
+	}
 	if (glutGetModifiers() == GLUT_ACTIVE_SHIFT)
 		mainPlane->m_unit = 2.5;
 	else
@@ -331,6 +342,7 @@ void Init()
 	enemyM = new EnemyManager();
 	//Init QUAD need to set ImageWH and TexCoord
 	LoadTexture("../Data/character/main.bmp","../Data/character/mainalpha.bmp",MainPlaneTex);
+	LoadTexture("../Data/character/mid.bmp","../Data/character/midalpha.bmp",MainPlaneMidTex,0.5);
 	mainPlane = new Plane(MainPlaneTex,0,-350,26,44);
 	mainPlane->m_deadAnime = mainHurtTex;
 	mainPlane->m_isAuto = false;
@@ -338,10 +350,12 @@ void Init()
 	mainPlane->SetTexCoord(3,28,3,46);
 	mainPlane->SetAnimeTexCoord(selfTexCoord,0,16);
 	mainPlane->SetBullet(BulletTex[3],14,31,0);
-	//mainPlane->SetBullet(MainPlaneTex,31,14,45,0,30,241,254);
 	mainPlane->SetBulletSpeed(15);
-	mainPlane->m_hp = 9999;
-	mainPlane->m_hpMax = 9999;
+	mainPlane->m_hp = 100;
+	mainPlane->m_hpMax = 100;
+
+	mainPlaneQ = new Plane(MainPlaneMidTex,0,-350,10,10);
+	mainPlaneQ->SetImageWH(16,16);
 	//--
 	InitBoss();
 }

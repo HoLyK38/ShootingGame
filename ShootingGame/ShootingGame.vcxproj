@@ -50,11 +50,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\OpenCV2.3.1\opencv\include;D:\OpenCV2.3.1\opencv\include\opencv;D:\OpenCV2.3.1\opencv\include\opencv2;D:\OpenCV2.3.1\opencv\modules\core\include;D:\OpenCV2.3.1\opencv\modules\imgproc\include;D:\OpenCV2.3.1\opencv\modules\video\include;D:\OpenCV2.3.1\opencv\modules\features2d\include;D:\OpenCV2.3.1\opencv\modules\flann\include;D:\OpenCV2.3.1\opencv\modules\objdetect\include;D:\OpenCV2.3.1\opencv\modules\calib3d\include;D:\OpenCV2.3.1\opencv\modules\legacy\include\;D:\OpenCV2.3.1\opencv\modules\highgui\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\freeglut</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\freeglut;D:\OpenCV2.3.1\opencv\build\x86\vc10\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_imgproc231.lib;opencv_imgproc231d.lib;opencv_highgui231.lib;opencv_highgui231d.lib;opencv_core231.lib;opencv_core231d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

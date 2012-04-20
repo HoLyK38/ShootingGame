@@ -7,8 +7,8 @@ QUAD::QUAD(GLuint id,float x,float y)
 	this->m_imageW = 256;
 	this->SetPoint(x,y,m_imageW,m_imageH,0);
 	this->SetVertex();
-	this->m_left = this->m_down = 0.0f;
-	this->m_right = this->m_top = 1.0f;
+	this->m_right = this->m_down = 1.0f;
+	this->m_left = this->m_top = 0.0f;
 	
 }
 QUAD::QUAD(GLuint id, float x,float y,float w,float h)
@@ -18,8 +18,8 @@ QUAD::QUAD(GLuint id, float x,float y,float w,float h)
 	this->m_imageW = 256;
 	this->SetPoint(x,y,w,h,0);
 	this->SetVertex();
-	this->m_left = this->m_down = 0.0f;
-	this->m_right = this->m_top = 1.0f;
+	this->m_right = this->m_down = 1.0f;
+	this->m_left = this->m_top = 0.0f;
 }
 QUAD::QUAD(GLuint id,float x,float y,float angle)
 {
@@ -28,8 +28,8 @@ QUAD::QUAD(GLuint id,float x,float y,float angle)
 	this->m_imageW = 256;
 	this->SetPoint(x,y,m_imageW,m_imageH,angle);
 	this->SetVertex();
-	this->m_left = this->m_down = 0.0f;
-	this->m_right = this->m_top = 1.0f;
+	this->m_right = this->m_down = 1.0f;
+	this->m_left = this->m_top = 0.0f;
 }
 QUAD::QUAD(GLuint id,float x,float y,float w,float h,float angle)
 {
@@ -38,8 +38,8 @@ QUAD::QUAD(GLuint id,float x,float y,float w,float h,float angle)
 	this->m_imageW = 256;
 	this->SetPoint(x,y,w,h,angle);
 	this->SetVertex();
-	this->m_left = this->m_down = 0.0f;
-	this->m_right = this->m_top = 1.0f;
+	this->m_right = this->m_down = 1.0f;
+	this->m_left = this->m_top = 0.0f;
 }
 void QUAD::SetVertex()
 {
@@ -72,8 +72,8 @@ void QUAD::SetPoint(float x,float y,float w,float h,float angle)
 }
 void QUAD::SetTexCoord(float left,float right,float top,float down)
 {
-	this->m_top = 1-top/this->m_imageH;
-	this->m_down = 1-down/this->m_imageH;
+	this->m_top = top/this->m_imageH;
+	this->m_down = down/this->m_imageH;
 	this->m_left = left/this->m_imageW;
 	this->m_right = right/this->m_imageW;
 }
@@ -92,10 +92,10 @@ void QUAD::Draw(void)
 			glEnable(GL_BLEND);//啟動混和功能
 			glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 			glBegin(GL_QUADS);
-				glTexCoord2f(m_left,m_top);glVertex3f(this->m_vertexX[0], this->m_vertexY[1], Z);
 				glTexCoord2f(m_left,m_down);glVertex3f(this->m_vertexX[0], this->m_vertexY[0], Z);
 				glTexCoord2f(m_right,m_down);glVertex3f(this->m_vertexX[1], this->m_vertexY[0], Z);
 				glTexCoord2f(m_right,m_top);glVertex3f(this->m_vertexX[1], this->m_vertexY[1], Z);
+				glTexCoord2f(m_left,m_top);glVertex3f(this->m_vertexX[0], this->m_vertexY[1], Z);
 			glEnd();
 			glDisable(GL_BLEND);
 		glPopMatrix();

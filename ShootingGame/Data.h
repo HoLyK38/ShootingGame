@@ -8,6 +8,7 @@ float deltaTime;
 float clock_x = 460,clock_y = 340;
 //int HP;//自己血量
 GLuint MainPlaneTex=0;
+GLuint MainPlaneMidTex=0;
 GLuint BossPlaneTex=0;
 std::vector<GLuint>BulletTex;
 GLuint BackGroundTex=0;
@@ -30,6 +31,7 @@ QUAD* bossHPt;//右上角的Boss HP條外框
 QUAD* Win;
 
 Plane* mainPlane;//自機
+Plane* mainPlaneQ;//自機判定點
 Plane* boss;//敵機
 
 EnemyManager *enemyM;

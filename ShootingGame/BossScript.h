@@ -34,9 +34,18 @@ float timeScript[][2] = {
 	{22,24} ,//shoot 16
 	{24,27} ,//shoot 17
 	{16,18} ,//move18
+	{27,28} ,//shoot 19
+	{28,30} ,//move 20
+	{30,30.2} ,//shootall 21
+	{30.2,30.4} ,//shootall 22
+	{30.4,30.6} ,//shootall 23
+	{30.6,31} ,//shootall 24
+	{31,32} ,//move 25
+	{32,33} ,//shoot 26
+	{33,34} ,//shoot 26
 };
-float endTime=30;
-int scriptSize = 18;//^
+float endTime=34.5;
+int scriptSize = 27;//^
 bool playTitle=false;;
 bool Script()
 {
@@ -224,6 +233,54 @@ void bossAction(int n)
 		break;
 	case 17:
 		Action_Move(0,300);
+		break;
+	case 18:
+		Action_Move(0,0);
+	case 19:
+		if ( temp2 >0.03 ){
+			temp =temp + 20 + rand()% 360;
+			temp =float ( int(temp) % 360) ;
+			Action_Shoot(BulletTex[1],8,wCross,temp);
+			temp2 = deltaTime;
+		}
+		break;
+	case 20:
+		Action_Move(0,-200);
+		break;
+	case 21:
+		Action_Shoot(BulletTex[0],8,wAllAngle,rand()% 360);
+		break;
+	case 22:
+		Action_Shoot(BulletTex[1],3,wAllAngle,rand()% 360);
+		break;
+	case 23:
+		Action_Shoot(BulletTex[2],8,wAllAngle,rand()% 360);
+		break;
+	case 24:
+		Action_Shoot(BulletTex[0],3,wAllAngle,rand()% 360);
+		break;
+	case 25:
+		Action_Move(0,0);
+		break;
+	case 26:
+		if ( temp2 >0.1 ){
+			temp += 10;
+			temp =float ( int(temp) % 360);
+			Action_Shoot(BulletTex[2],5,wAllAngle,temp);
+			temp2 = deltaTime;
+		}else
+			temp2 += deltaTime;
+		break;
+	case 27:
+		if ( temp2 >0.05 ){
+			/*temp += 30;
+			temp =float ( int(temp) % 360);*/
+			
+			temp = rand()% 360;
+			Action_Shoot(BulletTex[0],6,wAllAngleT,temp);
+			temp2 = deltaTime;
+		}else
+			temp2 += deltaTime;
 		break;
 	case -1:
 		target->SetBulletSpeed(10);
