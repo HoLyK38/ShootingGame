@@ -86,6 +86,7 @@
     <ClInclude Include="INCLUDE.h" />
     <ClInclude Include="LoadTextureFunc.h" />
     <ClInclude Include="MainPlaneFunc.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="QUAD.h" />
     <ClInclude Include="BossScript.h" />

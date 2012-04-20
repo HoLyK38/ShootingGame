@@ -16,6 +16,7 @@ public:
 	bool m_keyState[4];
 	bool m_isDead;
 	int m_hp;
+	int m_hpMax;
 	float m_unit;
 	std::vector<GLuint> m_deadAnime;//死亡播放動畫的Texture
 	Bullet* m_bullet;

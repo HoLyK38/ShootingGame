@@ -57,6 +57,9 @@
     <ClInclude Include="BossScript.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="QUAD.cpp">

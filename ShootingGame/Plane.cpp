@@ -11,7 +11,8 @@ Plane::Plane(GLuint id , float x,float y,float w,float h):QUAD(id ,x, y, w, h,0)
 	this->m_BM = new BulletManager();
 	this->m_state = NONE;
 	this->m_weapon = wSINGLE;
-	this->m_hp = 30;
+	this->m_hp = 100;
+	this->m_hpMax = m_hp;
 	this->m_unit = 5;
 	this->m_BAngle = 0;
 	this->m_isAuto = true;
@@ -103,21 +104,59 @@ void Plane::Shoot()
 			this->m_BM->Push(b_temp);
 			break;
 		case wDOUBLE :
-			b_temp.SetStart(this->m_x+36*sin((m_BAngle+30)*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
+			b_temp.SetStart(this->m_x+36*sin((m_BAngle+15)*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
 			b_temp.SetTrack(m_BAngle,Track_Angle);
 			this->m_BM->Push(b_temp);
-			b_temp.SetStart(this->m_x+36*sin((m_BAngle-30)*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
+			b_temp.SetStart(this->m_x+36*sin((m_BAngle-15)*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
+			b_temp.SetTrack(m_BAngle,Track_Angle);
 			this->m_BM->Push(b_temp);
 			break;
 		case wTRIPLE :
+			b_temp.SetStart(this->m_x+36*sin((m_BAngle+15)*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
+			b_temp.SetTrack(m_BAngle+30,Track_Angle);
+			this->m_BM->Push(b_temp);
+			b_temp.SetStart(this->m_x+36*sin((m_BAngle)*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
+			b_temp.SetTrack(m_BAngle,Track_Angle);
+			this->m_BM->Push(b_temp);
+			b_temp.SetStart(this->m_x+36*sin((m_BAngle-15)*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
+			b_temp.SetTrack(m_BAngle-30,Track_Angle);
+			this->m_BM->Push(b_temp);
 			break;
 		case wAllAngle:
 			for(double i = 0 ; i < 360 ; i += 15)
 			{
 				b_temp.SetStart(this->m_x+36*sin(i*PI/180) ,this->m_y+36*cos(i*PI/180));
-				b_temp.SetTrack(i,Track_Angle);//Track Set
+				b_temp.SetTrack(i+m_BAngle,Track_Angle);//Track Set
 				this->m_BM->Push(b_temp);
 			}
+			break;
+		case wAllAngleT:
+			for(double i = 0 ; i < 360 ; i += 45)
+			{
+				b_temp.SetStart(this->m_x+36*sin(i*PI/180) ,this->m_y+36*cos(i*PI/180));
+				b_temp.SetTrack(i+m_BAngle,Track_Angle);//Track Set
+				this->m_BM->Push(b_temp);
+			}
+			break;
+		case wCross:
+			b_temp.SetStart(this->m_x+36*sin(m_BAngle*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
+			b_temp.SetTrack(m_BAngle,Track_Angle);
+			this->m_BM->Push(b_temp);
+			m_BAngle += 90;
+			b_temp.SetStart(this->m_x+36*sin(m_BAngle*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
+			b_temp.SetTrack(m_BAngle,Track_Angle);
+			this->m_BM->Push(b_temp);
+			m_BAngle += 90;
+			b_temp.SetStart(this->m_x+36*sin(m_BAngle*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
+			b_temp.SetTrack(m_BAngle,Track_Angle);
+			this->m_BM->Push(b_temp);
+			m_BAngle += 90;
+			b_temp.SetStart(this->m_x+36*sin(m_BAngle*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
+			b_temp.SetTrack(m_BAngle,Track_Angle);
+			this->m_BM->Push(b_temp);
+			m_BAngle += 90;
+			m_BAngle -= 360;
+			break;
 		default:
 			break;
 		}

@@ -8,7 +8,22 @@ void SpecialKeyboard(int,int,int);//獲取特殊鍵盤輸入
 void Display(void);                     //描繪 
 void Clock();//右上角的時間
 void ClockDraw(int,int);//右上角的時間
+void HpDraw(int,int);
 void Init();//初始化子彈人物敵機資訊
+void test(int)
+{
+	if(go==true){
+			Init();
+			glutReshapeFunc(Reshape); 
+			glutKeyboardFunc(Keyboard);
+			glutKeyboardUpFunc(KeyboardUp);
+			glutSpecialUpFunc(SpecialKeyboardUp);
+			glutSpecialFunc(SpecialKeyboard);
+			glutDisplayFunc(Display);
+	}
+	else
+		glutTimerFunc(10,test,0);
+}
 void Frame(int)
 {
 	glutPostRedisplay();
@@ -22,16 +37,20 @@ int main(int argc,char** argv)
 	glutInitWindowPosition(0,0);
 	glutCreateWindow(argv[0]);
 	//--------------------------------------------------
-	gameTimer.tick();
-	Init();
+	M_Init();
 	//--------------------------------------------------
 	glutReshapeFunc(Reshape); 
+	glutKeyboardFunc(M_Keyboard);
+	glutSpecialFunc(M_SpecialKeyboard);
+	glutDisplayFunc(M_Display);
+	/*glutReshapeFunc(Reshape); 
 	glutKeyboardFunc(Keyboard);
 	glutKeyboardUpFunc(KeyboardUp);
 	glutSpecialUpFunc(SpecialKeyboardUp);
 	glutSpecialFunc(SpecialKeyboard);
-	glutDisplayFunc(Display);
+	glutDisplayFunc(Display);*/
 	//---Timer
+	glutTimerFunc(10,test,0);
 	glutTimerFunc(15,Frame,0);
 	//---Timer
 	glutMainLoop(); 
@@ -44,6 +63,7 @@ void Display(void)
 	glMatrixMode(GL_MODELVIEW); 
 	glLoadIdentity(); 
 	gluLookAt(0,0,200,0,0,0,0,1,0);   //視線的座標及方向
+	if(!isGameover){
 	//---------BackGround----------------------------
 	BackGround->Draw();
 	//---------caculate time----------------------------
@@ -52,13 +72,26 @@ void Display(void)
 	Clock();
 	gameTime += deltaTime;
 	//---------update-----------------------------------
-	if (mainPlane->m_hp <= 0) isGameover = true;
+	if (mainPlane->m_isDead) isGameover = true;
 	mainPlane->Update(deltaTime);
 	mainPlane->m_BM->isCollide(enemyM);
 	enemyM->Update(deltaTime);
 	enemyM->hitMainPlane(mainPlane);
 	//---------Script-----------------------------------
 	Script();
+	HpDraw(mainPlane->m_hp,mainPlane->m_hpMax);
+	if (boss->m_isDead) isGameover = true;
+	if(playTitle==false)StageTile->Draw();
+	}
+	else{
+		Sleep(1500);
+		if(boss->m_isDead)
+			Win->Draw();
+		else
+			Gameover->Draw();
+	}
+	//---
+	
 	//--------------------------------------------------
 	glutSwapBuffers();
 }
@@ -67,6 +100,10 @@ void Clock()
 	static float sT = 0;
 	static int m = 0,s = 0;
 	static float temp=1;
+	if (clockReset){
+		sT=0;m=0;s=0;temp=1;
+		clockReset = false;
+	}
 	if( sT>=temp )	temp = temp + 1;
 	sT += deltaTime;
 	if( sT>=60 ){
@@ -94,16 +131,52 @@ void ClockDraw(int m,int s)
 	for(int i=0;i<4;i++)
 		number[i]->Draw();
 }
+void HpDraw(int hp,int maxHp)
+{
+	if ( hp<0 ) hp=0;
+	int un,te,hu,th;//個位 十位 百位 千位
+	int temp;
+	th = hp / 1000;hp = hp % 1000;
+	hu = hp / 100; hp = hp % 100;
+	te = hp / 10;  hp = hp % 10;
+	un = hp;
+	mainHP[0]->SetTexCoord( number2TexCoord[th] , number2TexCoord[th]+40);
+	mainHP[1]->SetTexCoord( number2TexCoord[hu] , number2TexCoord[hu]+40);
+	mainHP[2]->SetTexCoord( number2TexCoord[te] , number2TexCoord[te]+40);
+	mainHP[3]->SetTexCoord( number2TexCoord[un] , number2TexCoord[un]+40);
+
+	mainHP[4]->SetTexCoord( number2TexCoord[10] , number2TexCoord[10]+38);
+	
+	th = maxHp / 1000;maxHp = maxHp % 1000;
+	hu = maxHp / 100; maxHp = maxHp % 100;
+	te = maxHp / 10;  maxHp = maxHp % 10;
+	un = maxHp;
+	mainHP[5]->SetTexCoord( number2TexCoord[th] , number2TexCoord[th]+40);
+	mainHP[6]->SetTexCoord( number2TexCoord[hu] , number2TexCoord[hu]+40);
+	mainHP[7]->SetTexCoord( number2TexCoord[te] , number2TexCoord[te]+40);
+	mainHP[8]->SetTexCoord( number2TexCoord[un] , number2TexCoord[un]+40);
+	for(int i=0;i<9;i++)
+		mainHP[i]->Draw();
+}
 void Keyboard(unsigned char key, int x, int y) 
 {
+	if(isGameover) exit(0);
 	switch (key)
 	{
+		case '1':
+			mainPlane->ChangeWeapon(wSINGLE);
+			break;
+		case '2':
+			mainPlane->ChangeWeapon(wDOUBLE);
+			break;
+		case '3':
+			mainPlane->ChangeWeapon(wTRIPLE);
+			break;
 		case 'q':
-			gameTime = 13.5;
+			mainPlane->m_hp -= 10;
 			break;
 		case 'x':
-			mainPlane->m_hp = 100;
-			mainPlane->m_textureID = MainPlaneTex;
+			Init();
 			break;
 		case 'v':
 			mainPlane->ChangeWeapon(wSINGLE);
@@ -134,6 +207,7 @@ void KeyboardUp(unsigned char key, int x, int y)
 }
 void SpecialKeyboard(int key, int x, int y) 
 {
+	if(isGameover) exit(0);
 	if (glutGetModifiers() == GLUT_ACTIVE_SHIFT)
 		mainPlane->m_unit = 2.5;
 	else
@@ -185,38 +259,30 @@ void Reshape(int w, int h)
 	winWidth = w;
 	winHeight = h;
 	glViewport(-620,-380,1000*2,800*2);
-	/*GLfloat aspect;
-	aspect=(GLfloat)w / (GLfloat)h;
-	if(aspect > 1.0f)
-		glViewport((w-h)/2.0f,0,(GLsizei)h,(GLsizei)h);
-	else
-		glViewport(0,(h-w)/2.0f,(GLsizei)w,(GLsizei)w);*/
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	//gluPerspective(90.0f, 1.0f, 1.0f, 1000.0f);
 	glOrtho(-800,800,-800,800,-800,800);
 	glMatrixMode(GL_MODELVIEW);
 }
 void Init()
 {
 	GLuint temp;
+	srand((unsigned)time(NULL));//set 亂數種子 
+	gameTimer.tick();
 	gameTime = 0;
-	LoadTexture("../Data/character/main.bmp","../Data/character/mainalpha.bmp",MainPlaneTex);
-	LoadTexture("../Data/character/boss.bmp","../Data/character/bossalpha.bmp",BossPlaneTex);
+	clockReset = true;
+	playTitle = false;
+	isGameover = false;
+	isWin = false;
+	
 	LoadTexture("../Data/bullet/bullet1.bmp","../Data/bullet/bullet1alpha.bmp",temp);
 	BulletTex.push_back(temp);
 	LoadTexture("../Data/bullet/bullet2.bmp","../Data/bullet/bullet2alpha.bmp",temp);
 	BulletTex.push_back(temp);
 	LoadTexture("../Data/bullet/bullet3.bmp","../Data/bullet/bullet3alpha.bmp",temp);
 	BulletTex.push_back(temp);
-	LoadTexture("../Data/character/boss.bmp","../Data/character/bossalpha.bmp",temp);
-	bossHurtTex.push_back(temp);
-	LoadTexture("../Data/character/bossdeadanime1.bmp","../Data/character/bossalpha.bmp",temp);
-	bossHurtTex.push_back(temp);
-	LoadTexture("../Data/character/bossdeadanime2.bmp","../Data/character/bossalpha.bmp",temp);
-	bossHurtTex.push_back(temp);
-	LoadTexture("../Data/character/bossdeadanime3.bmp","../Data/character/bossalpha.bmp",temp);
-	bossHurtTex.push_back(temp);
+	LoadTexture("../Data/bullet/bullet4.bmp","../Data/bullet/bullet4alpha.bmp",temp);
+	BulletTex.push_back(temp);
 	//--
 	LoadTexture("../Data/character/main.bmp","../Data/character/mainalpha.bmp",temp);
 	mainHurtTex.push_back(temp);
@@ -236,33 +302,46 @@ void Init()
 	for(int i=0;i<4;i++)
 		number[i]->SetImageWH(676,88);
 	number[1]->SetTexCoord(636,676);
+	//--Init number(display HP)
+	int tx=460,ty=-250;
+	LoadTexture("../Data/system/number2.bmp","../Data/system/number2alpha.bmp",number2Tex);
+	for(int i=0;i<4;i++){
+		mainHP[i] = new QUAD(number2Tex,tx+50*i,ty,40,60);
+		mainHP[i]->SetImageWH(556,60);
+	}
+	mainHP[4] = new QUAD(number2Tex,tx+70,ty-50,40,60);
+	mainHP[4]->SetImageWH(556,60);
+	for(int i=5;i<9;i++){
+		mainHP[i] = new QUAD(number2Tex,tx+50*(i-5),ty-120,40,60);
+		mainHP[i]->SetImageWH(556,60);
+	}
 	//--Init BackGround and Gameover
 	LoadTexture("../Data/system/background.bmp","../Data/system/backgroundalpha.bmp",BackGroundTex,0.45);
 	BackGround = new QUAD(BackGroundTex,0,0,800,800);
 	BackGround->SetImageWH(800,800);
 
 	LoadTexture("../Data/system/gameover.bmp","../Data/system/gameoveralpha.bmp",GameoverTex,1);
-	Gameover = new QUAD(GameoverTex,0,0,1200,1200);
+	Gameover = new QUAD(GameoverTex,170,-20,1000/2,900/2);
 	Gameover->SetImageWH(800,600);
+
+	LoadTexture("../Data/system/win.bmp","../Data/system/gameoveralpha.bmp",WinTex);
+	Win = new QUAD(WinTex,170,-20,1000/2,900/2);
+	Win->SetImageWH(800,600);
 	//--Init EnemyManager
 	enemyM = new EnemyManager();
 	//Init QUAD need to set ImageWH and TexCoord
+	LoadTexture("../Data/character/main.bmp","../Data/character/mainalpha.bmp",MainPlaneTex);
 	mainPlane = new Plane(MainPlaneTex,0,-350,26,44);
 	mainPlane->m_deadAnime = mainHurtTex;
 	mainPlane->m_isAuto = false;
 	mainPlane->SetImageWH(256,256);
 	mainPlane->SetTexCoord(3,28,3,46);
 	mainPlane->SetAnimeTexCoord(selfTexCoord,0,16);
-	mainPlane->SetBullet(BulletTex[0],16,16,0);
+	mainPlane->SetBullet(BulletTex[3],14,31,0);
+	//mainPlane->SetBullet(MainPlaneTex,31,14,45,0,30,241,254);
+	mainPlane->SetBulletSpeed(15);
+	mainPlane->m_hp = 9999;
+	mainPlane->m_hpMax = 9999;
 	//--
-	boss = new Plane(BossPlaneTex,0,0,39,71);
-	boss->m_deadAnime = bossHurtTex;
-	boss->SetImageWH(256,256);
-	//boss->SetTexCoord(35,90,36,98);
-	boss->SetTexCoord(13,51,11,81);
-	boss->SetBullet(BulletTex[0],16,16,0);
-	
-	enemyM->Push(boss);
-	//Script target
-	target = boss;
+	InitBoss();
 }

@@ -15,3 +15,4 @@
 #include "GameTimer.h"
 #include "LoadTextureFunc.h"
 #include "BossScript.h"
+#include "Menu.h"
