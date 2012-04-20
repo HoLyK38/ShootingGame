@@ -10,11 +10,12 @@ void BulletManager::Push(Bullet& b)
 void BulletManager::Update(float deltaTime)
 {
 	for(int i=0;i<m_bullet.size();i++){
-		m_bullet[i].Update(deltaTime);
 		//Ãä¬É§P©w
-		if( m_bullet[i].m_y > 450 || m_bullet[i].m_y < -450 ||
-			m_bullet[i].m_x > 450 || m_bullet[i].m_x < -450 )
+		if( m_bullet[i].m_y > 400 || m_bullet[i].m_y < -400 ||
+			m_bullet[i].m_x > 300 || m_bullet[i].m_x < -300 )
 			m_bullet.erase(m_bullet.begin()+i);
+		else
+			m_bullet[i].Update(deltaTime);
 	}
 }
 void BulletManager::isCollide(EnemyManager* enemyM)
@@ -29,5 +30,16 @@ void BulletManager::isCollide(EnemyManager* enemyM)
 				break;
 			}
 		}
+	}
+}
+void BulletManager::isCollide(Plane* mainPlane)
+{
+	for(int i=0;i<m_bullet.size();i++){
+			if( m_bullet[i].isCollide( mainPlane ) ){
+				mainPlane->m_hp -= m_bullet[i].m_atk;
+				mainPlane->m_hurting = true;
+				m_bullet.erase(m_bullet.begin()+i);
+				break;
+			}
 	}
 }

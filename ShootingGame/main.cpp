@@ -19,7 +19,7 @@ int main(int argc,char** argv)
 	glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH);
 	glutInitWindowSize(winWidth,winHeight);	//< Dual view
-	glutInitWindowPosition(500,0);
+	glutInitWindowPosition(0,0);
 	glutCreateWindow(argv[0]);
 	//--------------------------------------------------
 	gameTimer.tick();
@@ -43,7 +43,7 @@ void Display(void)
 	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); 
 	glMatrixMode(GL_MODELVIEW); 
 	glLoadIdentity(); 
-	gluLookAt(0,0,400,0,0,0,0,1,0);   //視線的座標及方向
+	gluLookAt(0,0,200,0,0,0,0,1,0);   //視線的座標及方向
 	//---------BackGround----------------------------
 	BackGround->Draw();
 	//---------caculate time----------------------------
@@ -52,9 +52,11 @@ void Display(void)
 	Clock();
 	gameTime += deltaTime;
 	//---------update-----------------------------------
+	if (mainPlane->m_hp <= 0) isGameover = true;
 	mainPlane->Update(deltaTime);
 	mainPlane->m_BM->isCollide(enemyM);
 	enemyM->Update(deltaTime);
+	enemyM->hitMainPlane(mainPlane);
 	//---------Script-----------------------------------
 	Script();
 	//--------------------------------------------------
@@ -97,10 +99,11 @@ void Keyboard(unsigned char key, int x, int y)
 	switch (key)
 	{
 		case 'q':
-			mainPlane->ChangeWeapon(wAllAngle);
+			gameTime = 13.5;
 			break;
 		case 'x':
-			cout<<boss->m_state<<endl;
+			mainPlane->m_hp = 100;
+			mainPlane->m_textureID = MainPlaneTex;
 			break;
 		case 'v':
 			mainPlane->ChangeWeapon(wSINGLE);
@@ -181,7 +184,7 @@ void Reshape(int w, int h)
 {
 	winWidth = w;
 	winHeight = h;
-	glViewport(0,0,w,h);
+	glViewport(-620,-380,1000*2,800*2);
 	/*GLfloat aspect;
 	aspect=(GLfloat)w / (GLfloat)h;
 	if(aspect > 1.0f)
@@ -190,32 +193,42 @@ void Reshape(int w, int h)
 		glViewport(0,(h-w)/2.0f,(GLsizei)w,(GLsizei)w);*/
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(90.0f, 1.0f, 1.0f, 500.0f);
+	//gluPerspective(90.0f, 1.0f, 1.0f, 1000.0f);
+	glOrtho(-800,800,-800,800,-800,800);
 	glMatrixMode(GL_MODELVIEW);
 }
 void Init()
 {
 	GLuint temp;
 	gameTime = 0;
-	LoadTexture("../Data/002.bmp","../Data/002alpha.bmp",MainPlaneTex);
-	LoadTexture("../Data/002.bmp","../Data/002alpha.bmp",MainPlaneTex);
-	LoadTexture("../Data/aaa.bmp","../Data/aaaalpha.bmp",BossPlaneTex);
-	LoadTexture("../Data/bullet1.bmp","../Data/bullet1alpha.bmp",temp);
+	LoadTexture("../Data/character/main.bmp","../Data/character/mainalpha.bmp",MainPlaneTex);
+	LoadTexture("../Data/character/boss.bmp","../Data/character/bossalpha.bmp",BossPlaneTex);
+	LoadTexture("../Data/bullet/bullet1.bmp","../Data/bullet/bullet1alpha.bmp",temp);
 	BulletTex.push_back(temp);
-	LoadTexture("../Data/bullet2.bmp","../Data/bullet2alpha.bmp",temp);
+	LoadTexture("../Data/bullet/bullet2.bmp","../Data/bullet/bullet2alpha.bmp",temp);
 	BulletTex.push_back(temp);
-	LoadTexture("../Data/bullet3.bmp","../Data/bullet3alpha.bmp",temp);
+	LoadTexture("../Data/bullet/bullet3.bmp","../Data/bullet/bullet3alpha.bmp",temp);
 	BulletTex.push_back(temp);
-	LoadTexture("../Data/aaa.bmp","../Data/aaaalpha.bmp",temp);
+	LoadTexture("../Data/character/boss.bmp","../Data/character/bossalpha.bmp",temp);
 	bossHurtTex.push_back(temp);
-	LoadTexture("../Data/test1.bmp","../Data/aaaalpha.bmp",temp);
+	LoadTexture("../Data/character/bossdeadanime1.bmp","../Data/character/bossalpha.bmp",temp);
 	bossHurtTex.push_back(temp);
-	LoadTexture("../Data/test2.bmp","../Data/aaaalpha.bmp",temp);
+	LoadTexture("../Data/character/bossdeadanime2.bmp","../Data/character/bossalpha.bmp",temp);
 	bossHurtTex.push_back(temp);
-	LoadTexture("../Data/test3.bmp","../Data/aaaalpha.bmp",temp);
+	LoadTexture("../Data/character/bossdeadanime3.bmp","../Data/character/bossalpha.bmp",temp);
 	bossHurtTex.push_back(temp);
+	//--
+	LoadTexture("../Data/character/main.bmp","../Data/character/mainalpha.bmp",temp);
+	mainHurtTex.push_back(temp);
+	LoadTexture("../Data/character/maindeadanime1.bmp","../Data/character/mainalpha.bmp",temp);
+	mainHurtTex.push_back(temp);
+	LoadTexture("../Data/character/maindeadanime2.bmp","../Data/character/mainalpha.bmp",temp);
+	mainHurtTex.push_back(temp);
+	LoadTexture("../Data/character/maindeadanime3.bmp","../Data/character/mainalpha.bmp",temp);
+	mainHurtTex.push_back(temp);
+	//---
 	//--Init Clock
-	LoadTexture("../Data/number.bmp","../Data/numberalpha.bmp",numberTex);
+	LoadTexture("../Data/system/number.bmp","../Data/system/numberalpha.bmp",numberTex);
 	number[0] = new QUAD(numberTex,clock_x,clock_y,60,88);
 	number[1] = new QUAD(numberTex,clock_x+60,clock_y,40,88);
 	number[2] = new QUAD(numberTex,clock_x+100,clock_y,60,88);
@@ -223,26 +236,32 @@ void Init()
 	for(int i=0;i<4;i++)
 		number[i]->SetImageWH(676,88);
 	number[1]->SetTexCoord(636,676);
-	//--Init BackGround
-	LoadTexture("../Data/background.bmp","../Data/backgroundalpha.bmp",BackGroundTex,0.45);
+	//--Init BackGround and Gameover
+	LoadTexture("../Data/system/background.bmp","../Data/system/backgroundalpha.bmp",BackGroundTex,0.45);
 	BackGround = new QUAD(BackGroundTex,0,0,800,800);
 	BackGround->SetImageWH(800,800);
+
+	LoadTexture("../Data/system/gameover.bmp","../Data/system/gameoveralpha.bmp",GameoverTex,1);
+	Gameover = new QUAD(GameoverTex,0,0,1200,1200);
+	Gameover->SetImageWH(800,600);
 	//--Init EnemyManager
 	enemyM = new EnemyManager();
 	//Init QUAD need to set ImageWH and TexCoord
 	mainPlane = new Plane(MainPlaneTex,0,-350,26,44);
+	mainPlane->m_deadAnime = mainHurtTex;
 	mainPlane->m_isAuto = false;
 	mainPlane->SetImageWH(256,256);
 	mainPlane->SetTexCoord(3,28,3,46);
 	mainPlane->SetAnimeTexCoord(selfTexCoord,0,16);
 	mainPlane->SetBullet(BulletTex[0],16,16,0);
-
-	boss = new Plane(BossPlaneTex,0,0,56,63);
+	//--
+	boss = new Plane(BossPlaneTex,0,0,39,71);
 	boss->m_deadAnime = bossHurtTex;
-	boss->SetImageWH(256,128);
-	boss->SetTexCoord(35,90,36,98);
+	boss->SetImageWH(256,256);
+	//boss->SetTexCoord(35,90,36,98);
+	boss->SetTexCoord(13,51,11,81);
 	boss->SetBullet(BulletTex[0],16,16,0);
-
+	
 	enemyM->Push(boss);
 	//Script target
 	target = boss;

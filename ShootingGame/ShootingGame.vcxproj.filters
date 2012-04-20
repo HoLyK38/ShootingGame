@@ -51,10 +51,10 @@
     <ClInclude Include="Track.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="StageScript.h">
+    <ClInclude Include="INCLUDE.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="INCLUDE.h">
+    <ClInclude Include="BossScript.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>

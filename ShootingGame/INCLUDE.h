@@ -14,4 +14,4 @@
 #include "ConstData.h"
 #include "GameTimer.h"
 #include "LoadTextureFunc.h"
-#include "StageScript.h"
+#include "BossScript.h"

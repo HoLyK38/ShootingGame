@@ -9,7 +9,7 @@ public:
 	float m_x,m_y,m_w,m_h,m_angle;//w,h想呈現的寬高
 	float m_imageW , m_imageH;//圖片原本實際寬高
 	float m_top,m_down,m_right,m_left;//貼圖座標
-	static const int Z=-20;
+	static const int Z=50;
 	GLuint m_textureID;
 	QUAD(GLuint id,float x,float y,float w,float h,float angle);
 	QUAD(GLuint id,float x,float y,float w,float h);

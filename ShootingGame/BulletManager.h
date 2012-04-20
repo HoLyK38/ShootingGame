@@ -13,5 +13,6 @@ public:
 	void Push(Bullet&);
 	void Update(float);
 	void isCollide(EnemyManager* enemyM);
+	void isCollide(Plane* mainPlane);
 };
 #endif

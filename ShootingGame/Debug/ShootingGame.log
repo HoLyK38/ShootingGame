@@ -1,4 +1,4 @@
-﻿已經開始建置於 2012/4/19 上午 11:48:22。
+﻿已經開始建置於 2012/4/20 上午 07:56:14。
      1>節點 2 (build 目標) 上的專案 "C:\Users\HolyK\Desktop\Project\ShootingGame\ShootingGame\ShootingGame.vcxproj"。
      1>InitializeBuildStatus:
          由於指定了 "AlwaysCreate"，因此正在建立 "Debug\ShootingGame.unsuccessfulbuild"。
@@ -7,7 +7,7 @@
          main.cpp
      1>c:\users\holyk\desktop\project\shootinggame\shootinggame\loadtexturefunc.h(65): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 請參閱 'fopen' 的宣告
-     1>c:\users\holyk\desktop\project\shootinggame\shootinggame\stagescript.h(50): warning C4715: 'Script' : 不是所有控制路徑都傳回值
+     1>c:\users\holyk\desktop\project\shootinggame\shootinggame\bossscript.h(54): warning C4715: 'Script' : 不是所有控制路徑都傳回值
        ManifestResourceCompile:
          所有輸出都是最新的。
        Link:
@@ -33,4 +33,4 @@
 
 建置成功。
 
-經過時間 00:00:01.62
+經過時間 00:00:01.72

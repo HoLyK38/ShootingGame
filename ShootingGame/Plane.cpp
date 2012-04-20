@@ -7,6 +7,7 @@ Plane::Plane(GLuint id , float x,float y,float w,float h):QUAD(id ,x, y, w, h,0)
 {
 	this->m_isShooting = false;
 	this->m_hurting = false;
+	this->m_isDead = false;
 	this->m_BM = new BulletManager();
 	this->m_state = NONE;
 	this->m_weapon = wSINGLE;
@@ -75,6 +76,14 @@ void Plane::CheckState()
 			this->m_y -= m_unit;
 			break;
 	}
+	if(this->m_x >300)
+		this->m_x -= m_unit;
+	if(this->m_x <-300)
+		this->m_x += m_unit;
+	if(this->m_y >400)
+		this->m_y -= m_unit;
+	if(this->m_y <-400)
+		this->m_y += m_unit;
 }
 void Plane::Shoot()
 {
@@ -94,6 +103,11 @@ void Plane::Shoot()
 			this->m_BM->Push(b_temp);
 			break;
 		case wDOUBLE :
+			b_temp.SetStart(this->m_x+36*sin((m_BAngle+30)*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
+			b_temp.SetTrack(m_BAngle,Track_Angle);
+			this->m_BM->Push(b_temp);
+			b_temp.SetStart(this->m_x+36*sin((m_BAngle-30)*PI/180) ,this->m_y+36*cos(m_BAngle*PI/180));
+			this->m_BM->Push(b_temp);
 			break;
 		case wTRIPLE :
 			break;
@@ -127,9 +141,16 @@ void Plane::Move()
 		this->m_x +=m_unit;
 	if ( this->m_keyState[2] )
 		this->m_y +=m_unit;
-	if ( this->m_keyState[3] ){
-		this->m_y -=m_unit;		
-	}
+	if ( this->m_keyState[3] )
+		this->m_y -=m_unit;
+	if(this->m_x >300)
+		this->m_x -= m_unit;
+	if(this->m_x <-300)
+		this->m_x += m_unit;
+	if(this->m_y >400)
+		this->m_y -= m_unit;
+	if(this->m_y <-400)
+		this->m_y += m_unit;
 }
 void Plane::Move(PlaneState s)
 {
@@ -171,7 +192,7 @@ void Plane::deadAnime(float deltaTime)
 	if ( n >= m_deadAnime.size() ){
 		sumTime = 0;
 		n = 0;
-		this->m_state = DEAD;
+		this->m_isDead = true;
 	}
 	else if( sumTime > 0.02){
 		this->m_textureID = m_deadAnime[n];

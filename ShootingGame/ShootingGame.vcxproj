@@ -88,7 +88,7 @@
     <ClInclude Include="MainPlaneFunc.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="QUAD.h" />
-    <ClInclude Include="StageScript.h" />
+    <ClInclude Include="BossScript.h" />
     <ClInclude Include="Track.h" />
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,7 @@ public:
 	EnemyManager();
 	void Push(Plane*);
 	void Update(float deltaTime);
-	void test();
+	void hitMainPlane(Plane* mainPlane);
 };
 
 #endif
