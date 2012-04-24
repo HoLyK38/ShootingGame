@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3B19C9A3-6779-432B-B501-BC6961344D25}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>KShootingGame</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>C:\Users\HolyK\Desktop\Project\KShootingGame\KShootingGame\Lua;D:\OpenCV2.3.1\opencv\include;D:\OpenCV2.3.1\opencv\include\opencv;D:\OpenCV2.3.1\opencv\include\opencv2;D:\OpenCV2.3.1\opencv\modules\core\include;D:\OpenCV2.3.1\opencv\modules\imgproc\include;D:\OpenCV2.3.1\opencv\modules\video\include;D:\OpenCV2.3.1\opencv\modules\features2d\include;D:\OpenCV2.3.1\opencv\modules\flann\include;D:\OpenCV2.3.1\opencv\modules\objdetect\include;D:\OpenCV2.3.1\opencv\modules\calib3d\include;D:\OpenCV2.3.1\opencv\modules\legacy\include\;D:\OpenCV2.3.1\opencv\modules\highgui\include;</AdditionalIncludeDirectories>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <StringPooling>
+      </StringPooling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\freeglut;D:\OpenCV2.3.1\opencv\build\x86\vc10\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_imgproc231.lib;opencv_imgproc231d.lib;opencv_highgui231.lib;opencv_highgui231d.lib;opencv_core231.lib;opencv_core231d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\HolyK\Desktop\Project\KShootingGame\KShootingGame\Lua;D:\OpenCV2.3.1\opencv\include;D:\OpenCV2.3.1\opencv\include\opencv;D:\OpenCV2.3.1\opencv\include\opencv2;D:\OpenCV2.3.1\opencv\modules\core\include;D:\OpenCV2.3.1\opencv\modules\imgproc\include;D:\OpenCV2.3.1\opencv\modules\video\include;D:\OpenCV2.3.1\opencv\modules\features2d\include;D:\OpenCV2.3.1\opencv\modules\flann\include;D:\OpenCV2.3.1\opencv\modules\objdetect\include;D:\OpenCV2.3.1\opencv\modules\calib3d\include;D:\OpenCV2.3.1\opencv\modules\legacy\include\;D:\OpenCV2.3.1\opencv\modules\highgui\include;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\freeglut;D:\OpenCV2.3.1\opencv\build\x86\vc10\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_imgproc231.lib;opencv_imgproc231d.lib;opencv_highgui231.lib;opencv_highgui231d.lib;opencv_core231.lib;opencv_core231d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletManager.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="GameTimer.cpp" />
+    <ClCompile Include="Lua\CreateLua.cpp" />
+    <ClCompile Include="Lua\LuaCell.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Vector.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Ball.h" />
+    <ClInclude Include="BossScript.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletManager.h" />
+    <ClInclude Include="BulletTrack.h" />
+    <ClInclude Include="ConstData.h" />
+    <ClInclude Include="Data.h" />
+    <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="GameTimer.h" />
+    <ClInclude Include="INCLUDE.h" />
+    <ClInclude Include="LoadTextureFunc.h" />
+    <ClInclude Include="Lua\CreateLua.h" />
+    <ClInclude Include="Lua\lauxlib.h" />
+    <ClInclude Include="Lua\lua.h" />
+    <ClInclude Include="Lua\lua.hpp" />
+    <ClInclude Include="Lua\LuaCell.h" />
+    <ClInclude Include="Lua\luaconf.h" />
+    <ClInclude Include="Lua\lualib.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Plane.h" />
+    <ClInclude Include="Vector.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

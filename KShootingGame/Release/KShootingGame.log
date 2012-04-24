@@ -1,0 +1,64 @@
+﻿已經開始建置於 2012/4/23 下午 11:34:19。
+     1>節點 2 (build 目標) 上的專案 "C:\Users\HolyK\Desktop\Project\KShootingGame\KShootingGame\KShootingGame.vcxproj"。
+     1>PrepareForBuild:
+         正在建立目錄 "C:\Users\HolyK\Desktop\Project\KShootingGame\Release\"。
+       InitializeBuildStatus:
+         由於指定了 "AlwaysCreate"，因此正在建立 "Release\KShootingGame.unsuccessfulbuild"。
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\Users\HolyK\Desktop\Project\KShootingGame\KShootingGame\Lua /ID:\OpenCV2.3.1\opencv\include /ID:\OpenCV2.3.1\opencv\include\opencv /ID:\OpenCV2.3.1\opencv\include\opencv2 /ID:\OpenCV2.3.1\opencv\modules\core\include /ID:\OpenCV2.3.1\opencv\modules\imgproc\include /ID:\OpenCV2.3.1\opencv\modules\video\include /ID:\OpenCV2.3.1\opencv\modules\features2d\include /ID:\OpenCV2.3.1\opencv\modules\flann\include /ID:\OpenCV2.3.1\opencv\modules\objdetect\include /ID:\OpenCV2.3.1\opencv\modules\calib3d\include /ID:\OpenCV2.3.1\opencv\modules\legacy\include\ /ID:\OpenCV2.3.1\opencv\modules\highgui\include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Ball.cpp Bullet.cpp BulletManager.cpp EnemyManager.cpp GameTimer.cpp Lua\CreateLua.cpp Lua\LuaCell.cpp main.cpp Plane.cpp Vector.cpp
+         Ball.cpp
+         Bullet.cpp
+         BulletManager.cpp
+     1>BulletManager.cpp(12): warning C4018: '<' : signed/unsigned 不相符
+     1>BulletManager.cpp(23): warning C4018: '<' : signed/unsigned 不相符
+     1>BulletManager.cpp(24): warning C4018: '<' : signed/unsigned 不相符
+     1>BulletManager.cpp(37): warning C4018: '<' : signed/unsigned 不相符
+         EnemyManager.cpp
+     1>EnemyManager.cpp(10): warning C4018: '<' : signed/unsigned 不相符
+     1>EnemyManager.cpp(20): warning C4018: '<' : signed/unsigned 不相符
+         GameTimer.cpp
+         CreateLua.cpp
+         LuaCell.cpp
+         main.cpp
+     1>d:\opencv2.3.1\opencv\modules\flann\include\opencv2\flann\dist.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+     1>d:\opencv2.3.1\opencv\modules\flann\include\opencv2\flann\dist.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+     1>d:\opencv2.3.1\opencv\modules\flann\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : 請參閱 'fopen' 的宣告
+     1>d:\opencv2.3.1\opencv\modules\flann\include\opencv2\flann\dist.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+     1>d:\opencv2.3.1\opencv\modules\flann\include\opencv2\flann\dist.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+     1>D:\OpenCV2.3.1\opencv\modules\flann\include\opencv2/flann/flann.hpp(233): warning C4996: 'cv::flann::Index_<T>': 宣告為已被取代
+                 D:\OpenCV2.3.1\opencv\modules\flann\include\opencv2/flann/flann.hpp(278) : 請參閱所要編譯的類別 樣板 具現化 'cv::flann::Index_<T>' 的參考
+     1>D:\OpenCV2.3.1\opencv\modules\legacy\include\opencv2/legacy/compat.hpp : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+     1>c:\users\holyk\desktop\project\kshootinggame\kshootinggame\Menu.h(26): warning C4018: '<' : signed/unsigned 不相符
+     1>main.cpp(141): warning C4101: 'temp' : 未參考的區域變數
+         Plane.cpp
+     1>Plane.cpp(194): warning C4018: '<' : signed/unsigned 不相符
+     1>Plane.cpp(204): warning C4018: '>=' : signed/unsigned 不相符
+     1>Plane.cpp(222): warning C4018: '>=' : signed/unsigned 不相符
+         Vector.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\HolyK\Desktop\Project\KShootingGame\Release\KShootingGame.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\freeglut /LIBPATH:D:\OpenCV2.3.1\opencv\build\x86\vc10\lib opencv_imgproc231.lib opencv_imgproc231d.lib opencv_highgui231.lib opencv_highgui231d.lib opencv_core231.lib opencv_core231d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\KShootingGame.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\HolyK\Desktop\Project\KShootingGame\Release\KShootingGame.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\HolyK\Desktop\Project\KShootingGame\Release\KShootingGame.lib" /MACHINE:X86 Release\Ball.obj
+         Release\Bullet.obj
+         Release\BulletManager.obj
+         Release\EnemyManager.obj
+         Release\GameTimer.obj
+         Release\CreateLua.obj
+         Release\LuaCell.obj
+         Release\main.obj
+         Release\Plane.obj
+         Release\Vector.obj
+     1>LINK : warning LNK4098: 預設的程式庫 'LIBCMT' 與其他使用的程式庫衝突，請使用 /NODEFAULTLIB:library
+         正在產生程式碼
+     1>c:\users\holyk\desktop\project\kshootinggame\kshootinggame\bossscript.h(81): warning C4715: 'Script' : 不是所有控制路徑都傳回值
+         已完成程式碼產生
+         KShootingGame.vcxproj -> C:\Users\HolyK\Desktop\Project\KShootingGame\Release\KShootingGame.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\HolyK\Desktop\Project\KShootingGame\Release\KShootingGame.exe;#1" /manifest Release\KShootingGame.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         正在刪除檔案 "Release\KShootingGame.unsuccessfulbuild"。
+         正在變更時間戳記 "Release\KShootingGame.lastbuildstate"。
+     1>專案 "C:\Users\HolyK\Desktop\Project\KShootingGame\KShootingGame\KShootingGame.vcxproj" (build 目標) 建置完成。
+
+建置成功。
+
+經過時間 00:00:06.38
